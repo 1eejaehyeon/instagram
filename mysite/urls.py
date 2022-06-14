@@ -25,7 +25,6 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('', login_required(TemplateView.as_view(template_name='root.html')), name='root'),
     path('', include('instagram.urls')),
     path('identicon/image/<path:data>/', pydenticon_image, name='pydenticon_image')
 ]

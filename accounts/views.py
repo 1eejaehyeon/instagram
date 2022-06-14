@@ -10,6 +10,8 @@ from .forms import SignupForm, ProfileForm
 from django.contrib.auth import login as auth_login, get_user_model
 from django.contrib.auth.decorators import login_required
 
+from .models import User
+
 
 def logout(request):
     return logout_then_login(request)
@@ -72,3 +74,28 @@ def user_page(request, username):
         'page_user': page_user,
         'post_list': post_list
     })
+
+
+@login_required
+def user_follow(request, username):
+    follow_user = get_object_or_404(User, username=username, is_active=True)
+
+    # following_set : 유저가 팔로우 한 다른 유저(유저가 친구로 추가한 사람들)
+    # follower_set: 유저를 팔로우 한 다른 유저 (유저를 친구로 추가한 사람들)
+    request.user.following_set.add(follow_user)
+    follow_user.follower_set.add(request.user)
+
+    messages.success(request, f'{follow_user}님을 팔로우했습니다.')
+    redirect_url = request.META.get('HTTP_REFERER', 'root')
+    return redirect(redirect_url)
+
+@login_required
+def user_unfollow(request, username):
+    unfollow_user = get_object_or_404(User, username=username, is_active=True)
+
+    request.user.following_set.remove(unfollow_user)
+    unfollow_user.follower_set.remove(request.user)
+
+    messages.success(request, f'{unfollow_user}님을 언팔했습니다..')
+    redirect_url = request.META.get('HTTP_REFERER', 'root')
+    return redirect(redirect_url)

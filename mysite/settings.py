@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'instagram',
     'django_pydenticon',
+    'django.contrib.humanize',
 
 ]
 

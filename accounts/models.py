@@ -10,6 +10,8 @@ class User(AbstractUser):
     bio = models.TextField(blank=True)
     phone_number = models.CharField(max_length=13, validators=[RegexValidator(r"^010-?[1-9]\d{3}-?\d{4}$")])
     gender = models.CharField(max_length= 5,choices=GenderChoices.choices)
+    follower_set = models.ManyToManyField('self', blank=True)
+    following_set = models.ManyToManyField('self', blank=True)
 
     @property
     def name(self):

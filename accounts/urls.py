@@ -9,5 +9,8 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name="logout"),
     path("edit/", views.profile_edit, name="edit"),
-    re_path(r'^(?P<username>[\w.@+-]+)/$', views.user_page, name='user_page')
+    re_path(r'^(?P<username>[\w.@+-]+)/$', views.user_page, name='user_page'),
+    re_path(r'^(?P<username>[\w.@+-]+)/follow/$', views.user_follow, name='user_follow'),
+    re_path(r'^(?P<username>[\w.@+-]+)/user_unfollow/$', views.user_unfollow, name='user_unfollow'),
+
 ]
